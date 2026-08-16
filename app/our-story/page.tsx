@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getStoryContent, section, paragraphs } from "@/lib/story";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Our Story — Jeldi",
@@ -97,15 +99,39 @@ export default async function OurStoryPage() {
     <>
       {/* ===== Hero / intro ===== */}
       <section className="relative overflow-hidden bg-chestnut px-5 pb-20 pt-40 text-ivory sm:px-14 sm:pb-28 sm:pt-48">
+        {/* Background image with slow ken-burns zoom */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/story/fez-medina-rooftops.jpg"
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-40 kenburns"
+            priority
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(74,46,31,0.55) 0%, rgba(74,46,31,0.85) 100%)"
+            }}
+          />
+        </div>
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-50 mix-blend-overlay"
+          className="pointer-events-none absolute inset-0 z-0 opacity-50 mix-blend-overlay"
           style={{
             backgroundImage:
               "repeating-linear-gradient(115deg, rgba(0,0,0,.08) 0 2px, transparent 2px 6px)"
           }}
         />
-        <div className="relative z-10 mx-auto max-w-[760px]">
+        <Reveal
+          variant="up"
+          duration={900}
+          className="relative z-10 mx-auto max-w-[760px]"
+        >
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-beige">
             {section(content, "hero_eyebrow", FALLBACK.hero_eyebrow)}
           </p>
@@ -115,52 +141,111 @@ export default async function OurStoryPage() {
           <p className="max-w-[52ch] text-lg text-ivory/80">
             {section(content, "hero_body", FALLBACK.hero_body)}
           </p>
-        </div>
+        </Reveal>
       </section>
 
-      {/* ===== History ===== */}
-      <section className="mx-auto max-w-[760px] px-5 py-20 sm:px-14 sm:py-28">
-        <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
-          {section(content, "history_eyebrow", FALLBACK.history_eyebrow)}
-        </p>
-        <h2 className="mb-6 font-display text-3xl leading-tight text-chestnut sm:text-4xl">
-          {section(content, "history_title", FALLBACK.history_title)}
-        </h2>
-        <div className="space-y-5 text-[#4A3B2E]">
-          {historyParagraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+      {/* ===== History (with image) ===== */}
+      <section className="mx-auto max-w-[1180px] px-5 py-20 sm:px-14 sm:py-28">
+        <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+          <Reveal variant="left" duration={700} className="relative aspect-[4/5] overflow-hidden rounded-sm bg-beige">
+            <Image
+              src="/story/fez-medina-rooftops.jpg"
+              alt="Hides drying on rooftops in the Fez medina, Morocco"
+              fill
+              sizes="(max-width: 768px) 100vw, 45vw"
+              className="object-cover"
+            />
+          </Reveal>
+          <Reveal variant="right" delay={120} duration={700}>
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
+              {section(content, "history_eyebrow", FALLBACK.history_eyebrow)}
+            </p>
+            <h2 className="mb-6 font-display text-3xl leading-tight text-chestnut sm:text-4xl">
+              {section(content, "history_title", FALLBACK.history_title)}
+            </h2>
+            <div className="space-y-5 text-[#4A3B2E]">
+              {historyParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== The vats — signature visual ===== */}
       <section className="bg-beige px-5 py-16 sm:px-14 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <p className="mb-8 max-w-[46ch] font-mono text-xs uppercase tracking-[0.14em] text-chestnut/70">
-            The colors of the vats are not a design choice — they're the actual dyes.
-          </p>
+          <Reveal>
+            <p className="mb-8 max-w-[46ch] font-mono text-xs uppercase tracking-[0.14em] text-chestnut/70">
+              The colors of the vats are not a design choice — they&apos;re the actual dyes.
+            </p>
+          </Reveal>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-            {VAT_COLORS.map((v) => (
-              <div key={v.hex} className="aspect-square rounded-sm" style={{ backgroundColor: v.hex }}>
-                <span className="sr-only">{v.name}</span>
-              </div>
+            {VAT_COLORS.map((v, i) => (
+              <Reveal
+                key={v.hex}
+                variant="scale"
+                delay={i * 80}
+                duration={500}
+                className="aspect-square overflow-hidden rounded-sm"
+              >
+                <div
+                  className="h-full w-full transition-transform duration-500 hover:scale-[1.05]"
+                  style={{ backgroundColor: v.hex }}
+                >
+                  <span className="sr-only">{v.name}</span>
+                </div>
+              </Reveal>
             ))}
           </div>
+          <Reveal delay={300}>
+            <div className="mt-10 overflow-hidden rounded-sm bg-chestnut">
+              <div className="relative aspect-[16/7]">
+                <Image
+                  src="/story/vats-from-above.jpg"
+                  alt="Top-down view of stone dye vats at Chouara, rings of natural pigment"
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(74,46,31,0) 50%, rgba(74,46,31,0.85) 100%)"
+                  }}
+                />
+                <p className="absolute bottom-4 left-5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-beige sm:left-10">
+                  Chouara vats — saffron · poppy · indigo · cognac
+                </p>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== Process steps ===== */}
       <section className="bg-chestnut px-5 py-20 text-ivory sm:px-14 sm:py-28">
         <div className="mx-auto max-w-[860px]">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-beige">
-            {section(content, "process_eyebrow", FALLBACK.process_eyebrow)}
-          </p>
-          <h2 className="mb-14 max-w-[20ch] font-display text-3xl leading-tight sm:text-4xl">
-            {section(content, "process_title", FALLBACK.process_title)}
-          </h2>
+          <Reveal>
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-beige">
+              {section(content, "process_eyebrow", FALLBACK.process_eyebrow)}
+            </p>
+            <h2 className="mb-14 max-w-[20ch] font-display text-3xl leading-tight sm:text-4xl">
+              {section(content, "process_title", FALLBACK.process_title)}
+            </h2>
+          </Reveal>
           <ol className="space-y-10">
-            {STEPS.map((step) => (
-              <li key={step.n} className="flex gap-6 sm:gap-10">
+            {STEPS.map((step, i) => (
+              <Reveal
+                as="li"
+                key={step.n}
+                variant="up"
+                delay={i * 80}
+                duration={600}
+                className="flex gap-6 sm:gap-10"
+              >
                 <span className="shrink-0 font-mono text-sm text-cognac">
                   {step.n}
                 </span>
@@ -170,22 +255,90 @@ export default async function OurStoryPage() {
                   </h3>
                   <p className="max-w-[56ch] text-ivory/75">{step.body}</p>
                 </div>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </div>
       </section>
 
+      {/* ===== The artisan image band ===== */}
+      <section className="bg-ink px-5 py-0 sm:px-0">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-1 md:grid-cols-3">
+          <Reveal variant="up" duration={700} className="relative aspect-[3/4] md:aspect-auto md:h-full min-h-[360px] overflow-hidden">
+            <Image
+              src="/story/artisan-hands.jpg"
+              alt="A tanner's hands working a hide in a vat of cognac-colored dye"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover kenburns"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(28,23,18,0) 60%, rgba(28,23,18,0.85) 100%)"
+              }}
+            />
+            <p className="absolute bottom-4 left-4 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-beige">
+              Step into the vat
+            </p>
+          </Reveal>
+          <Reveal variant="up" delay={120} duration={700} className="relative aspect-[3/4] md:aspect-auto md:h-full min-h-[360px] overflow-hidden">
+            <Image
+              src="/story/hides-drying.jpg"
+              alt="Tanned hides drying on the medina rooftops"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover kenburns"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(28,23,18,0) 60%, rgba(28,23,18,0.85) 100%)"
+              }}
+            />
+            <p className="absolute bottom-4 left-4 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-beige">
+              Rooftop drying
+            </p>
+          </Reveal>
+          <Reveal variant="up" delay={240} duration={700} className="relative aspect-[3/4] md:aspect-auto md:h-full min-h-[360px] overflow-hidden">
+            <Image
+              src="/story/chouara-vats.jpg"
+              alt="Stone vats at the Chouara Tannery"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover kenburns"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(28,23,18,0) 60%, rgba(28,23,18,0.85) 100%)"
+              }}
+            />
+            <p className="absolute bottom-4 left-4 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-beige">
+              Chouara, Fez
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ===== Vegetable vs chemical tanning ===== */}
       <section className="mx-auto max-w-[1180px] px-5 py-20 sm:px-14 sm:py-28">
-        <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
-          {section(content, "tanning_eyebrow", FALLBACK.tanning_eyebrow)}
-        </p>
-        <h2 className="mb-12 max-w-[24ch] font-display text-3xl leading-tight text-chestnut sm:text-4xl">
-          {section(content, "tanning_title", FALLBACK.tanning_title)}
-        </h2>
+        <Reveal>
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
+            {section(content, "tanning_eyebrow", FALLBACK.tanning_eyebrow)}
+          </p>
+          <h2 className="mb-12 max-w-[24ch] font-display text-3xl leading-tight text-chestnut sm:text-4xl">
+            {section(content, "tanning_title", FALLBACK.tanning_title)}
+          </h2>
+        </Reveal>
         <div className="grid gap-px overflow-hidden rounded-sm bg-beige sm:grid-cols-2">
-          <div className="bg-ivory p-8 sm:p-10">
+          <Reveal variant="left" duration={700} className="bg-ivory p-8 sm:p-10">
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.1em] text-cognac">
               Chouara — Vegetable Tanning
             </p>
@@ -195,64 +348,72 @@ export default async function OurStoryPage() {
               <li>Ages into a deeper patina the more you use it</li>
               <li>Firmer, more breathable leather</li>
             </ul>
-          </div>
-          <div className="bg-ivory p-8 sm:p-10">
+          </Reveal>
+          <Reveal variant="right" delay={120} duration={700} className="bg-ivory p-8 sm:p-10">
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.1em] text-[#8a7a63]">
               Mass-Market — Chrome Tanning
             </p>
             <ul className="space-y-3 text-[#4A3B2E]">
               <li>Chromium salts, industrial by-products</li>
               <li>Finished in hours on a production line</li>
-              <li>Stays visually static — doesn't develop character</li>
+              <li>Stays visually static — doesn&apos;t develop character</li>
               <li>Softer initially, wears out faster</li>
             </ul>
-          </div>
+          </Reveal>
         </div>
-        <p className="mt-8 max-w-[60ch] text-[#4A3B2E]">
-          {section(content, "tanning_closing", FALLBACK.tanning_closing)}
-        </p>
+        <Reveal delay={150}>
+          <p className="mt-8 max-w-[60ch] text-[#4A3B2E]">
+            {section(content, "tanning_closing", FALLBACK.tanning_closing)}
+          </p>
+        </Reveal>
       </section>
 
       {/* ===== The people / honest note on the craft ===== */}
       <section className="bg-ivory px-5 py-20 sm:px-14 sm:py-28">
         <div className="mx-auto max-w-[760px]">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-oxblood">
-            {section(content, "people_eyebrow", FALLBACK.people_eyebrow)}
-          </p>
-          <h2 className="mb-6 font-display text-3xl leading-tight text-chestnut sm:text-4xl">
-            {section(content, "people_title", FALLBACK.people_title)}
-          </h2>
-          <div className="space-y-5 text-[#4A3B2E]">
-            {peopleParagraphs.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
+          <Reveal>
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-oxblood">
+              {section(content, "people_eyebrow", FALLBACK.people_eyebrow)}
+            </p>
+            <h2 className="mb-6 font-display text-3xl leading-tight text-chestnut sm:text-4xl">
+              {section(content, "people_title", FALLBACK.people_title)}
+            </h2>
+            <div className="space-y-5 text-[#4A3B2E]">
+              {peopleParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== Photography note (honest placeholder) ===== */}
       <section className="border-t border-beige px-5 py-16 sm:px-14 sm:py-20">
         <div className="mx-auto max-w-[760px]">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
-            A Note on the Photos Here
-          </p>
-          <p className="max-w-[56ch] text-[#4A3B2E]">
-            {section(content, "photo_note", FALLBACK.photo_note)}
-          </p>
+          <Reveal>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
+              A Note on the Photos Here
+            </p>
+            <p className="max-w-[56ch] text-[#4A3B2E]">
+              {section(content, "photo_note", FALLBACK.photo_note)}
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== CTA back to product ===== */}
       <section className="bg-chestnut px-5 py-20 text-center text-ivory sm:px-14 sm:py-24">
-        <h2 className="mb-6 font-display text-2xl sm:text-3xl">
-          The first piece made this way is a wallet.
-        </h2>
-        <a
-          href="/#product"
-          className="inline-block border border-ivory px-8 py-3.5 text-sm uppercase tracking-[0.06em] text-chestnut bg-ivory transition-colors hover:bg-transparent hover:text-ivory"
-        >
-          See the Fez Bifold
-        </a>
+        <Reveal>
+          <h2 className="mb-6 font-display text-2xl sm:text-3xl">
+            The first piece made this way is a wallet.
+          </h2>
+          <a
+            href="/#product"
+            className="inline-block border border-ivory px-8 py-3.5 text-sm uppercase tracking-[0.06em] text-chestnut bg-ivory transition-colors hover:bg-transparent hover:text-ivory"
+          >
+            See the Fez Bifold
+          </a>
+        </Reveal>
       </section>
     </>
   );

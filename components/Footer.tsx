@@ -10,36 +10,38 @@ export default function Footer() {
   return (
     <footer className="flex flex-col gap-7 bg-ink px-5 pb-10 pt-14 text-ivory/55 sm:px-14">
       <div className="flex flex-wrap items-center justify-between gap-6">
-        <div className="font-display text-lg text-ivory">Jeldi</div>
+        <Link href="/" className="font-display text-lg text-ivory transition-colors hover:text-beige">
+          Jeldi
+        </Link>
         <nav>
           <ul className="flex flex-wrap gap-6">
             <li>
-              <Link href="/our-story" className="text-sm">
+              <Link href="/our-story" className="text-sm transition-colors hover:text-beige">
                 Our Story
               </Link>
             </li>
             <li>
-              <Link href="/#product" className="text-sm">
+              <Link href="/#product" className="text-sm transition-colors hover:text-beige">
                 The Wallet
               </Link>
             </li>
             <li>
-              <Link href="/privacy-policy" className="text-sm">
+              <Link href="/privacy-policy" className="text-sm transition-colors hover:text-beige">
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link href="/terms" className="text-sm">
+              <Link href="/terms" className="text-sm transition-colors hover:text-beige">
                 Terms
               </Link>
             </li>
             <li>
-              <Link href="/shipping-faq" className="text-sm">
+              <Link href="/shipping-faq" className="text-sm transition-colors hover:text-beige">
                 Shipping &amp; Customs
               </Link>
             </li>
             <li>
-              <Link href="/track" className="text-sm">
+              <Link href="/track" className="text-sm transition-colors hover:text-beige">
                 Track Order
               </Link>
             </li>

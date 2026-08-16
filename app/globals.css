@@ -29,3 +29,72 @@ button:focus-visible {
   outline: 2px solid #8b5a2b;
   outline-offset: 3px;
 }
+
+/* ---------- Ken Burns slow zoom for hero images ---------- */
+@keyframes jeldi-kenburns {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1.18);
+  }
+}
+
+.kenburns {
+  animation: jeldi-kenburns 16s ease-out forwards;
+  will-change: transform;
+}
+
+/* ---------- Subtle grain for video overlays (kept inside palette) ---------- */
+@keyframes jeldi-grain {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
+.grain-overlay {
+  animation: jeldi-grain 6s ease-in-out infinite;
+}
+
+/* ---------- Marquee-style scrolling strip (used for ticker under hero) ---------- */
+@keyframes jeldi-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: jeldi-marquee 38s linear infinite;
+}
+
+/* ---------- Slow pulse for stitch rail indicator ---------- */
+@keyframes jeldi-pulse-soft {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.pulse-soft {
+  animation: jeldi-pulse-soft 2.4s ease-in-out infinite;
+}
+
+/* ---------- Reduced motion: disable all decorative animation ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .kenburns,
+  .grain-overlay,
+  .marquee-track,
+  .pulse-soft {
+    animation: none !important;
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getProduct, formatPrice } from "@/lib/products";
 import CheckoutForm from "@/components/CheckoutForm";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Checkout — Jeldi",
@@ -33,38 +34,46 @@ export default async function CheckoutPage({ searchParams }: Props) {
               "repeating-linear-gradient(115deg, rgba(0,0,0,.08) 0 2px, transparent 2px 6px)"
           }}
         />
-        <div className="relative z-10 mx-auto max-w-[640px]">
+        <Reveal
+          variant="up"
+          duration={900}
+          className="relative z-10 mx-auto max-w-[640px]"
+        >
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-beige">
             Checkout
           </p>
           <h1 className="font-display text-4xl leading-[1.05] sm:text-5xl">
             {product?.name ?? "Checkout"}
           </h1>
-        </div>
+        </Reveal>
       </section>
 
       <section className="mx-auto max-w-[640px] px-5 py-20 sm:px-14 sm:py-28">
         {!slug || !product || price.isPending ? (
-          <div className="rounded-sm border border-chestnut/25 px-6 py-8 text-[#4A3B2E]">
-            <p className="mb-2 font-display text-lg text-chestnut">
-              Not available for checkout yet.
-            </p>
-            <p>
-              {!slug || !product
-                ? "We couldn't find that product."
-                : "The price is still being finalized with the artisan workshop."}{" "}
-              <a href="/shop" className="underline">
-                Browse the shop
-              </a>{" "}
-              instead.
-            </p>
-          </div>
+          <Reveal variant="up" duration={600}>
+            <div className="rounded-sm border border-chestnut/25 px-6 py-8 text-[#4A3B2E]">
+              <p className="mb-2 font-display text-lg text-chestnut">
+                Not available for checkout yet.
+              </p>
+              <p>
+                {!slug || !product
+                  ? "We couldn't find that product."
+                  : "The price is still being finalized with the artisan workshop."}{" "}
+                <a href="/shop" className="underline">
+                  Browse the shop
+                </a>{" "}
+                instead.
+              </p>
+            </div>
+          </Reveal>
         ) : (
-          <CheckoutForm
-            slug={slug}
-            productName={product.name}
-            priceLabel={price.amount}
-          />
+          <Reveal variant="up" duration={700}>
+            <CheckoutForm
+              slug={slug}
+              productName={product.name}
+              priceLabel={price.amount}
+            />
+          </Reveal>
         )}
       </section>
     </>

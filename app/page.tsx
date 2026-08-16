@@ -1,4 +1,6 @@
+import Image from "next/image";
 import StitchRail from "@/components/StitchRail";
+import Reveal from "@/components/Reveal";
 import { getFeaturedProduct, formatPrice, STOCK_STATUS_LABEL } from "@/lib/products";
 
 export default async function HomePage() {
@@ -14,8 +16,30 @@ export default async function HomePage() {
     <>
       <StitchRail />
 
-      {/* ===== Hero ===== */}
-      <section className="relative flex min-h-[640px] items-end overflow-hidden bg-gradient-to-br from-[#2E1C12] via-chestnut to-[#3A2416]">
+      {/* ===== Hero with video background ===== */}
+      <section className="relative flex min-h-[640px] items-end overflow-hidden bg-chestnut">
+        {/* Video layer — muted, autoplay, loop, playsInline (mobile-safe) */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/product/wallet-hero.jpg"
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/hero/leather-push.mp4" type="video/mp4" />
+        </video>
+
+        {/* Cinematic darkening + palette tint (kept inside brand palette) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(28,23,18,.30) 0%, rgba(74,46,31,.55) 55%, rgba(28,23,18,.82) 100%)"
+          }}
+        />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-60 mix-blend-overlay"
@@ -29,23 +53,27 @@ export default async function HomePage() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(120% 90% at 15% 10%, rgba(139,90,43,.55), transparent 60%), radial-gradient(90% 70% at 85% 30%, rgba(92,26,26,.35), transparent 55%)"
+              "radial-gradient(120% 90% at 15% 10%, rgba(139,90,43,.45), transparent 60%), radial-gradient(90% 70% at 85% 30%, rgba(92,26,26,.30), transparent 55%)"
           }}
         />
 
-        <div className="relative z-10 grid w-full gap-4 px-5 pb-16 sm:px-14 sm:pb-24">
+        <Reveal
+          variant="up"
+          duration={900}
+          className="relative z-10 grid w-full gap-4 px-5 pb-16 sm:px-14 sm:pb-24"
+        >
           <p className="font-mono text-xs uppercase tracking-[0.14em] text-beige">
             Fez, Morocco — since the 12th century
           </p>
-          <h1 className="max-w-[14ch] font-display text-5xl leading-[1.02] text-ivory sm:text-7xl">
+          <h1 className="max-w-[14ch] font-display text-5xl leading-[1.02] text-ivory drop-shadow-[0_2px_24px_rgba(28,23,18,0.45)] sm:text-7xl">
             Carried from the <em className="font-light italic text-beige">Chouara</em>{" "}
             tannery to your pocket.
           </h1>
-          <p className="max-w-[38ch] text-ivory/80">
+          <p className="max-w-[38ch] text-ivory/85">
             Full-grain leather, vegetable-tanned by hand in the oldest tannery
             in the world. One wallet. No shortcuts.
           </p>
-        </div>
+        </Reveal>
 
         <div className="absolute bottom-7 left-5 z-10 flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-beige sm:left-14">
           <span className="h-px w-7 animate-pulse bg-beige motion-reduce:animate-none" />
@@ -53,24 +81,58 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ===== Marquee ticker — adds motion without changing palette ===== */}
+      <div
+        aria-hidden="true"
+        className="border-y border-cognac/30 bg-chestnut py-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-beige overflow-hidden"
+      >
+        <div className="marquee-track flex w-max whitespace-nowrap">
+          {Array.from({ length: 2 }).map((_, dup) => (
+            <div key={dup} className="flex shrink-0">
+              {[
+                "Full-grain leather",
+                "Vegetable-tanned",
+                "Hand-stitched saddle stitch",
+                "Chouara Tannery · Fez",
+                "One piece at a time",
+                "No middlemen"
+              ].map((s, i) => (
+                <span key={`${dup}-${i}`} className="flex items-center">
+                  <span className="px-6">{s}</span>
+                  <span className="text-cognac">✦</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ===== Story teaser ===== */}
       <section id="story" className="mx-auto max-w-[1180px] px-5 py-20 sm:px-14 sm:py-32">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-gradient-to-br from-beige via-cognac to-chestnut">
+          <Reveal variant="left" duration={700} className="relative aspect-[4/5] overflow-hidden rounded-sm bg-beige">
+            <Image
+              src="/story/chouara-vats.jpg"
+              alt="Stone vats of natural dye at the Chouara Tannery in Fez, Morocco"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover kenburns"
+              priority={false}
+            />
             <div
               aria-hidden="true"
-              className="absolute inset-0 opacity-100 mix-blend-multiply"
+              className="pointer-events-none absolute inset-0 opacity-40 mix-blend-multiply"
               style={{
                 backgroundImage:
                   "repeating-linear-gradient(100deg, rgba(0,0,0,.06) 0 2px, transparent 2px 7px)"
               }}
             />
-            <span className="absolute bottom-4 left-4 z-10 font-mono text-[0.68rem] tracking-wide text-ivory">
+            <span className="absolute bottom-4 left-4 z-10 bg-chestnut/70 px-2 py-1 font-mono text-[0.68rem] tracking-wide text-ivory backdrop-blur-[2px]">
               Chouara Tannery — Fez, Morocco
             </span>
-          </div>
+          </Reveal>
 
-          <div>
+          <Reveal variant="right" delay={120} duration={700}>
             <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
               Our Story
             </p>
@@ -90,35 +152,43 @@ export default async function HomePage() {
             </p>
             <a
               href="/our-story"
-              className="mt-2 inline-flex items-center gap-2 border-b border-oxblood pb-0.5 text-sm text-oxblood"
+              className="mt-2 inline-flex items-center gap-2 border-b border-oxblood pb-0.5 text-sm text-oxblood transition-colors hover:text-chestnut hover:border-chestnut"
             >
               Read the full story →
             </a>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== Product ===== */}
       <section id="product" className="bg-chestnut px-5 py-20 text-ivory sm:px-14 sm:py-32">
         <div className="mx-auto grid max-w-[1180px] gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-          <div className="relative aspect-square rounded-sm bg-gradient-to-br from-[#6B4226] to-[#3A2416]">
+          <Reveal variant="left" duration={700} className="relative aspect-square overflow-hidden rounded-sm bg-gradient-to-br from-[#6B4226] to-[#3A2416]">
+            <Image
+              src="/product/wallet-hero.jpg"
+              alt={product?.name || "The hand-stitched Jeldi leather wallet"}
+              fill
+              sizes="(max-width: 768px) 100vw, 55vw"
+              className="object-cover kenburns"
+              priority
+            />
             <div
               aria-hidden="true"
-              className="absolute inset-0 opacity-100 mix-blend-overlay"
+              className="pointer-events-none absolute inset-0 opacity-100 mix-blend-overlay"
               style={{
                 backgroundImage:
                   "repeating-linear-gradient(70deg, rgba(0,0,0,.12) 0 2px, transparent 2px 8px)"
               }}
             />
             {badgeLabel && (
-              <span className="absolute left-4 top-4 z-10 border border-beige px-2.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.1em] text-beige">
+              <span className="absolute left-4 top-4 z-10 border border-beige bg-chestnut/40 px-2.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.1em] text-beige backdrop-blur-[2px]">
                 {badgeLabel}
               </span>
             )}
-          </div>
+          </Reveal>
 
           {product && price ? (
-            <div>
+            <Reveal variant="right" delay={140} duration={700}>
               <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-beige">
                 The First Release
               </p>
@@ -148,12 +218,9 @@ export default async function HomePage() {
                     ? "Notify Me at Launch"
                     : "Buy Now"}
               </a>
-            </div>
+            </Reveal>
           ) : (
-            // Honest empty state — no product row exists yet. Nothing
-            // invented here; add one at /admin/products and this
-            // section (and /shop) picks it up immediately.
-            <div>
+            <Reveal variant="right" delay={140} duration={700}>
               <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-beige">
                 Coming Soon
               </p>
@@ -169,7 +236,7 @@ export default async function HomePage() {
               >
                 Notify Me at Launch
               </a>
-            </div>
+            </Reveal>
           )}
         </div>
       </section>

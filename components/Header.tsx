@@ -11,7 +11,10 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-5 py-5 sm:px-10 mix-blend-difference">
-      <Link href="/" className="font-display text-xl text-ivory tracking-wide">
+      <Link
+        href="/"
+        className="font-display text-xl text-ivory tracking-wide transition-opacity hover:opacity-70"
+      >
         Jeldi
       </Link>
       <nav>
@@ -19,7 +22,7 @@ export default function Header() {
           <li>
             <Link
               href="/shop"
-              className="text-xs uppercase tracking-widest text-ivory"
+              className="text-xs uppercase tracking-widest text-ivory transition-opacity hover:opacity-60"
             >
               Shop
             </Link>
@@ -27,7 +30,7 @@ export default function Header() {
           <li>
             <Link
               href="/our-story"
-              className="text-xs uppercase tracking-widest text-ivory"
+              className="text-xs uppercase tracking-widest text-ivory transition-opacity hover:opacity-60"
             >
               Our Story
             </Link>
@@ -35,7 +38,7 @@ export default function Header() {
           <li>
             <Link
               href="/#product"
-              className="text-xs uppercase tracking-widest text-ivory"
+              className="text-xs uppercase tracking-widest text-ivory transition-opacity hover:opacity-60"
             >
               The Wallet
             </Link>
@@ -43,7 +46,7 @@ export default function Header() {
           <li>
             <Link
               href="/contact"
-              className="text-xs uppercase tracking-widest text-ivory"
+              className="text-xs uppercase tracking-widest text-ivory transition-opacity hover:opacity-60"
             >
               Contact
             </Link>

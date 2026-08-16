@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Contact — Jeldi",
@@ -12,15 +14,38 @@ export default function ContactPage() {
     <>
       {/* ===== Mini hero (matches /our-story banding, keeps the fixed header legible) ===== */}
       <section className="relative overflow-hidden bg-chestnut px-5 pb-16 pt-40 text-ivory sm:px-14 sm:pb-20 sm:pt-48">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/contact/workshop-bench.jpg"
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-30 kenburns"
+            priority
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(74,46,31,0.70) 0%, rgba(74,46,31,0.92) 100%)"
+            }}
+          />
+        </div>
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-50 mix-blend-overlay"
+          className="pointer-events-none absolute inset-0 z-0 opacity-50 mix-blend-overlay"
           style={{
             backgroundImage:
               "repeating-linear-gradient(115deg, rgba(0,0,0,.08) 0 2px, transparent 2px 6px)"
           }}
         />
-        <div className="relative z-10 mx-auto max-w-[760px]">
+        <Reveal
+          variant="up"
+          duration={900}
+          className="relative z-10 mx-auto max-w-[760px]"
+        >
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-beige">
             Contact
           </p>
@@ -31,32 +56,34 @@ export default function ContactPage() {
             Questions about the wallet, launch timing, or the tannery itself —
             we read every message ourselves.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       {/* ===== Form + direct contact ===== */}
       <section className="mx-auto max-w-[760px] px-5 py-20 sm:px-14 sm:py-28">
         <div className="mb-12 grid gap-8 sm:grid-cols-2">
-          <div>
+          <Reveal variant="up" duration={600}>
             <p className="mb-2 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
               Email
             </p>
             <a
               href="mailto:hello@jeldi.com"
-              className="font-display text-xl text-chestnut underline decoration-cognac/40 underline-offset-4"
+              className="font-display text-xl text-chestnut underline decoration-cognac/40 underline-offset-4 transition-colors hover:text-cognac"
             >
               hello@jeldi.com
             </a>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal variant="up" delay={100} duration={600}>
             <p className="mb-2 font-mono text-xs uppercase tracking-[0.14em] text-cognac">
               Based In
             </p>
             <p className="text-[#4A3B2E]">Fez, Morocco — shipping worldwide</p>
-          </div>
+          </Reveal>
         </div>
 
-        <ContactForm />
+        <Reveal variant="up" delay={160} duration={700}>
+          <ContactForm />
+        </Reveal>
       </section>
     </>
   );
